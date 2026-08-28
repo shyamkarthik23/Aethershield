@@ -38,8 +38,13 @@
 
 .dashboard-lower {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 320px 320px 1fr;
   gap: 20px;
+}
+
+@media (max-width: 1300px) {
+  .dashboard-lower { grid-template-columns: 1fr 1fr; }
+  .dashboard-lower .feed-card { grid-column: 1 / -1; }
 }
 
 .gauge-card {
@@ -502,4 +507,28 @@
     height: auto;
   }
   .copilot-chat-card { height: 60vh; }
+}
+
+/* ---------- Score Trend Chart ---------- */
+.score-chart-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.score-chart-svg {
+  width: 100%;
+  height: 100px;
+}
+
+.score-chart-trend {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.score-chart-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 30px 10px;
+  text-align: center;
 }

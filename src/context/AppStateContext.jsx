@@ -18,6 +18,7 @@ export function AppStateProvider({ children }) {
   const [loading, setLoading] = useState(false);
   const [loadError, setLoadError] = useState(null);
   const [chaosSidebarOpen, setChaosSidebarOpen] = useState(true);
+  const [scoreHistory, setScoreHistory] = useState([]);
 
   // Pulls every org-scoped resource fresh from the backend. Called on
   // login and again after any mutating action (remediate, chaos trigger,
@@ -41,6 +42,10 @@ export function AppStateProvider({ children }) {
       setChaosEvents(chaosRes);
       setFeed(feedRes);
       setDashboard(dashRes);
+      setScoreHistory((prev) => {
+        const next = [...prev, { time: Date.now(), score: dashRes.securityScore }];
+        return next.slice(-20); // keep only the last 20 points so the chart doesn't grow unbounded
+      });
       setFrameworks(frameworksRes);
     } catch (err) {
       setLoadError(err.message || 'Failed to load data');
@@ -114,6 +119,7 @@ export function AppStateProvider({ children }) {
     activeThreats: dashboard?.activeThreats ?? 0,
     autoRemediations: dashboard?.autoRemediations ?? 0,
     securityScore: dashboard?.securityScore ?? 0,
+    scoreHistory,
     orgName: dashboard?.orgName ?? session?.orgName,
     triggeredEventIds,
     triggerChaosEvent,

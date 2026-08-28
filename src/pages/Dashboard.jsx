@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAppState } from '../context/AppStateContext';
 import ConnectCloudModal from '../components/ConnectCloudModal';
+import ScoreHistoryChart from '../components/ScoreHistoryChart';
 
 function ScoreGauge({ score }) {
   const radius = 80;
@@ -47,7 +48,7 @@ function StatCard({ label, value, icon, accent }) {
 }
 
 export default function Dashboard() {
-  const { securityScore, activeThreats, criticalCount, autoRemediations, feed, assets, remediateAsset, orgName, loading } = useAppState();
+  const { securityScore, activeThreats, criticalCount, autoRemediations, feed, assets, remediateAsset, orgName, loading, scoreHistory } = useAppState();
   const priorityFindings = assets.filter((a) => a.severity !== 'Healthy').slice(0, 4);
   const [showConnectModal, setShowConnectModal] = useState(false);
 
@@ -99,6 +100,11 @@ export default function Dashboard() {
           <ScoreGauge score={securityScore} />
           <h3 className="gauge-title">Global Compliance Score</h3>
           <p className="gauge-sub">Across AWS, Azure, &amp; GCP clusters.</p>
+        </div>
+
+        <div className="card">
+          <h3 className="gauge-title" style={{ marginBottom: '12px' }}>Score Trend</h3>
+          <ScoreHistoryChart history={scoreHistory} />
         </div>
 
         <div className="card feed-card">
