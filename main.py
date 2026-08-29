@@ -8,7 +8,7 @@ app = FastAPI(title="AetherShield API", version="1.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["https://aethershieldfrontend-mhmsozdj6-shyam-a951.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
